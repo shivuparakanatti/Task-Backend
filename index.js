@@ -2,6 +2,7 @@ var express = require('express')
 const app = express()
 const port = 3040
 const mongoose = require('mongoose')
+app.use(express.json())
 
 mongoose.connect('mongodb://127.0.0.1:27017/Tasks')
 .then(()=>{
@@ -51,20 +52,43 @@ app.get('/api/tasks',(req,res)=>{
 })
 
 
-app.post('/api/tasks',((req,res)=>{
-    const body = req.body
-    console.log(body)
+app.post('/api/tasks',(req,res)=>{
+  // const Body = req.body
+    //console.log(req.body)
 
-    const task = new Task(body)
+    const task = new Task(req.body);
 
     task.save()
-    .then(t=>{
-        res.json(t)
+    .then(task=>{
+        res.json(task)
     })
     .catch(err=>{
         res.json(err)
     })
-}))
+})
+
+app.delete('/api/tasks/:id',(req,res)=>{
+    const id = req.params.id
+    Task.findByIdAndDelete(id)
+    .then(task =>{
+        res.json(task)
+    })
+    .catch(err=>{
+        res.json(err)
+    })
+})
+
+app.put('/api/tasks/:id',(req,res)=>{
+    const id = req.params.id
+    const body = req.body
+    Task.findByIdAndUpdate(id,body,{new:true,runValidators:true})
+    .then(task=>{
+        res.json(task)
+    })
+    .then(err=>{
+        res.json(err)
+    })
+})
 
 app.listen(port,()=>{
     console.log('server is running on ',port)
