@@ -17,6 +17,7 @@ const Schema = mongoose.Schema
 const taskSchema = new Schema({
     title : {
         type :String
+        
     },
 
     Description : {
