@@ -15,8 +15,6 @@ taskControler.list = (req,res)=>{
     }
 
 taskControler.create = (req,res)=>{
-        // const Body = req.body
-          //console.log(req.body)
       
           const task = new Task(req.body);
       
