@@ -50,7 +50,4 @@ taskControler.update=((req,res)=>{
     })
 })
 
-
-
-
 module.exports=taskControler
